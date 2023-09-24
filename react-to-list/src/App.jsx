@@ -1,29 +1,49 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { NewTodoForm } from "./newTodoForm";
+import { TodoList } from "./TodoList";
 
 export default function App() {
-  const [newItem, setNewItem] = useState("");
-  return <div className="container border"><form className="form ">
-    <label htmlFor="item" className="form-label">Item</label>
-    <input id="item" type="text" onChange={e => setNewItem(e.target.value)} value={newItem} className="form-control" />
-    <button className='form-control btn btn-primary mt-2'>Add Item</button>
-  </form>
-    <h2 className="mt-2"> To do list</h2>
-    <ul class="list-group">
-      <li class="list-group-item "><div className="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="item1" />
-        <label class="form-check-label" for="item1">
-          Default checkbox
-        </label></div></li> <li class="list-group-item "><div className="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="item2" />
-          <label class="form-check-label" for="item2">
-            Default checkbox
-          </label></div></li> <li class="list-group-item "><div className="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="item3" />
-            <label class="form-check-label" for="item3">
-              Default checkbox
-            </label></div></li>
 
-    </ul>
+  const [todos, setTodo] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS");
+    if (!localValue) return [];
+    return JSON.parse(localValue)
+  });
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
+
+
+
+  function completeTodo(id, checked) {
+    setTodo(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed: checked }
+        }
+        return todo;
+      })
+    })
+
+  }
+
+  function addItemsTodo(title) {
+    setTodo((currentTodos) => [...currentTodos, { id: crypto.randomUUID(), title: title, completed: false }]);
+  }
+
+  function deleteTodo(id) {
+    setTodo(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
+
+  console.log(todos)
+
+
+  return <div className="container border">
+    <NewTodoForm onSubmit={addItemsTodo} />
+    <h2 className="mt-2"> To do list</h2>
+    <TodoList todos={todos} deleteTodo={deleteTodo} completeTodo={completeTodo} />
   </div>
 }
 
