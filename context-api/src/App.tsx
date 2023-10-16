@@ -5,14 +5,17 @@ import ELearing from './component/shop/ELearing';
 import Grocery from './component/shop/Grocery';
 import Tour from './component/vlog/Tour';
 import Cupons from './component/offer/Cupons';
+import LoginState from './context/login/LoginState';
 
 function App() {
   return (
     <>
-      <ELearing></ELearing>
-      <Grocery></Grocery>
-      <Tour></Tour>
-      <Cupons></Cupons>
+      <LoginState>
+        <ELearing></ELearing>
+        <Grocery></Grocery>
+        <Tour></Tour>
+        <Cupons></Cupons>
+      </LoginState>
     </>
   );
 }

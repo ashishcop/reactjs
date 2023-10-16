@@ -1,10 +1,14 @@
 import { useState } from "react";
 import LoginContext from "./LoginContext";
 
-const [ login, setLogin] = useState({isLoggedIn:false, userName:'Default'})
 
-export default (props) => {
+
+const LoginState = ({ children }) => {
+     const [state, setState] = useState({ isLoggedIn: false, userName: 'Default' })
+    // const state = { name: 'Default'}
     return (
-        <LoginContext.Provider value={ { login }}>{props.children}</LoginContext.Provider>
+        <LoginContext.Provider value={ {state,setState} }>{children}</LoginContext.Provider>
     )
 }
+
+export default LoginState;

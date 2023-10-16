@@ -1,6 +1,4 @@
-import { createContext } from "react";
+import  {createContext}  from "react";
 
-export const Login = {isLoggedIn:false, userName:'Default'}
-const LoginContext = createContext(Login);
-
+const LoginContext = createContext("");
 export default LoginContext;
